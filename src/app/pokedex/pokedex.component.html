@@ -1,0 +1,31 @@
+<app-poke-header (onSearch)="searchPokenmon($event)"></app-poke-header>
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 p-6 md:p-20">
+    <section class="md:col-start-2 md:col-end-5">
+        <app-poke-screen (onViewPokemon)="viewPokemon($event)" [pokeList]="(pokeList | async)?.results || []">
+        </app-poke-screen>
+
+        <div class="flex items-center justify-center space-x-4 mt-6">
+            <button [disabled]="(offset / limit) === 0" (click)="previousPage()" class="p-2 bg-gray-200 rounded-full hover:bg-gray-300">
+                <img src="/assets/icons/arrow-left.svg" alt="arrow-left" />
+            </button>
+
+            <span class="text-gray-700 font-semibold text-lg">
+                {{ (offset / limit) + 1 }}
+            </span>
+
+            <button (click)="nextPage()" class="p-2 bg-gray-200 rounded-full hover:bg-gray-300">
+                <img src="/assets/icons/arrow-right.svg" alt="arrow-right" />
+            </button>
+        </div>
+    </section>
+
+    <section class="md:col-start-7 md:col-end-10 gap-6 mt-8">
+        <app-poke-description [pokemon]="(selectedPokemon | async)"></app-poke-description>
+
+        <div *ngIf="showError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+            <p class="font-bold">Error</p>
+            <p>Algo salió mal, pokemon no encontrado</p>
+        </div>
+    </section>
+</div>
